@@ -1,8 +1,8 @@
-// Add console.log to check to see if our code is working.
+// Code check
 console.log("working");
 
-// We create the tile layer that will be the background of our map.
-//  Having tileLayer() before accessing large datasets ensures that the map gets loaded before data is added to it 
+// Create tile layer that will be the background of the map.
+//  (Note - tileLayer() before accessing large datasets ensures that the map gets loaded before data is added)
 
 let streets = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token={accessToken}', {
 attribution: 'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery (c) <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -10,22 +10,22 @@ attribution: 'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap
     accessToken: API_KEY
 });
 
-// We create the satellite view tile layer that will be an option for our map.
+// Create satellite view tile layer as option for the map
 let satelliteStreets = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v11/tiles/{z}/{x}/{y}?access_token={accessToken}', {
 attribution: 'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery (c) <a href="https://www.mapbox.com/">Mapbox</a>',
     maxZoom: 18,
     accessToken: API_KEY
 });
 
-// We create the third tile layer (light) option for the map
+// Create third layer option (light) for the map
 let light = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/{z}/{x}/{y}?access_token={accessToken}', {
 attribution: 'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery (c) <a href="https://www.mapbox.com/">Mapbox</a>',
     maxZoom: 18,
     accessToken: API_KEY
 });
 
-// Create a base layer that holds both maps.
-// Names of street/dark variables will represent what we see when opening the index.html file in order to toggle between different map layers 
+// Create base layer that holds both maps.
+// (Names of street/dark variables represents what will be seen when toggling between different map layers)
 let baseMaps = {
     "Streets": streets,
     "Satellite Streets": satelliteStreets, 
@@ -37,7 +37,7 @@ let earthquakes = new L.layerGroup();
 let tectonicPlates = new L.layerGroup();
 let majorEarthquakes = new L.layerGroup();
 
-// We define an object that contains the overlays.
+// Define an object that contains the overlays.
 let overlays = {
     "Earthquakes": earthquakes, 
     "Tectonic Plates": tectonicPlates, 
@@ -51,16 +51,15 @@ let map = L.map("mapid", {
     layers: [streets]
   });
 
-// Pass our map layers into our layers control and add the layers control to the map.
-// baseMaps argument passed - allowing us to have the two different styles of map to be shown on the index.html file 
+// Pass map layers into layers control and add the layers control to the map.
+// baseMaps argument passed - allows having two different styles of map to be shown on the index.html file 
 L.control.layers(baseMaps, overlays).addTo(map);
 
 // Accessing earthquakes GeoJSON URL.
 let earthQuakes = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
 
-// This function returns the style data for each of the earthquakes we plot on
-// the map. We pass the magnitude of the earthquake into a function
-// to calculate the radius.
+// This function returns the style data for each of the earthquakes plotted on to the map
+// Pass magnitude of the earthquake into a function to calculate radius.
 function styleInfo(feature) {
     return {
       opacity: 1,
@@ -94,7 +93,7 @@ function getColor(magnitude) {
   }
 
   // This function determines the radius of the earthquake marker based on its magnitude.
-// Earthquakes with a magnitude of 0 will be plotted with a radius of 1.
+// ( Note - Earthquakes with a magnitude of 0 will be plotted with a radius of 1)
 function getRadius(magnitude) {
     if (magnitude === 0) {
       return 1;
@@ -102,18 +101,18 @@ function getRadius(magnitude) {
     return magnitude * 4;
   }
 
-// Grabbing our GeoJSON data.
+// Accessing GeoJSON data
 d3.json(earthQuakes).then(function(data) {
     console.log(data);
   // Creating a GeoJSON layer with the retrieved data.
   L.geoJson(data, {
-      // We turn each feature into a circleMarker on the map.
+      // Turn each feature into a circleMarker on the map.
       pointToLayer: function(feature, latlng) {
           console.log(data);
           return L.circleMarker(latlng);
       },
       style: styleInfo,
-      // We create a popup for each circleMarker to display the magnitude and
+      // Create a popup for each circleMarker to display the magnitude and
     //  location of the earthquake after the marker has been created and styled.
        onEachFeature: function(feature, layer) {
            layer.bindPopup("Magnitude: " + feature.properties.mag + "<br>Location: " + feature.properties.place);
@@ -121,7 +120,7 @@ d3.json(earthQuakes).then(function(data) {
 
   }).addTo(earthquakes);
 
-//   Add earthquake laer to our map 
+//   Add earthquake layer to the map 
 earthquakes.addTo(map)
 });
 
@@ -164,9 +163,8 @@ d3.json(majorQuakeData).then(function(data) {
         return magnitude * 4;
       }
     
-    // 7. Creating a GeoJSON layer with the retrieved data that adds a circle to the map 
-    // sets the style of the circle, and displays the magnitude and location of the earthquake
-    //  after the marker has been created and styled.
+    // 7. Creating a GeoJSON layer with the retrieved data that adds a circle to the map, sets 
+    // style of the circle, and displays the magnitude and location of the earthquake after the marker has been created.
     L.geoJson(data, {
         pointToLayer: function(feature, latlng) {
             return L.circleMarker(latlng);
@@ -182,7 +180,7 @@ d3.json(majorQuakeData).then(function(data) {
     });
     majorEarthquakes.addTo(map);
     
-    // 9. Close the braces and parentheses for the major earthquake data.
+  
 
 // Create a legend control object.
 var legend = L.control({
@@ -201,7 +199,7 @@ legend.onAdd = function (map) {
         "#ea822c",
         "#ea2c2c"
 ];
-// Looping through our intervals to generate a label with a colored square for each interval.
+// Looping through intervals to generate a label with a colored square for each interval.
     for (var i = 0; i < magnitudes.length; i++) {
         console.log(colors[i]);
         div.innerHTML += "<i style='background: " + colors[i] + "'></i> " +
@@ -212,7 +210,7 @@ legend.onAdd = function (map) {
 
 legend.addTo(map);
 
-  // 3. Use d3.json to make a call to get our Tectonic Plate geoJSON data.
+  // 3. Use d3.json to make a call to get Tectonic Plate geoJSON data.
 plateData = "https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json"
 
 d3.json(plateData).then(function(data) {
