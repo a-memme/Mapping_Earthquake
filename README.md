@@ -1,4 +1,4 @@
-# Mapping_Earthquake
+# Mapping_Earthquakes
 
 ## Purpose 
 - Creating an interactive earthquake map with geoJSON data. 
