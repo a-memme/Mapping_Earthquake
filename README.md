@@ -1,6 +1,6 @@
 # Mapping Earthquakes
 
-## Purpose 
+## Overview
 - Creating an interactive earthquake map with geoJSON data, Leaflet and Javascript.
 - Multiple map overlays are used to visualize location of earthquakes, severity of earthquakes, and techtonic plate divisions.
 
