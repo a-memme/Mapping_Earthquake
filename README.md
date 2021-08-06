@@ -6,4 +6,4 @@
 - Toggle between map skins and earthquake visualizations.
 
 ## Map
-- See interactive map [here](https://a-memme.github.io/Mapping_Earthquakes/)
+- See interactive map [here](https://a-memme.github.io/Mapping_Earthquakes/) *(hosted by GitHub pages)*
